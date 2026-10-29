@@ -79,7 +79,8 @@ $horario = $controlador->ver("2DAW");
 			?>
 		</table>
 
-		<a href="altaHorario.php">Alta de horario</a>
+		<a href="altaHorario.php" class="botonAlta">Alta de horario</a>
+		<a href="bajaHorario.php" class="botonBaja">Baja de horario</a>
 	</main>
 </body>
 </html>

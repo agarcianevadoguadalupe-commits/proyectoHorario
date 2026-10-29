@@ -109,7 +109,7 @@ $dias = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
 					</div>
 
 					<div class="botones">
-						<input type="submit" name="accion" value="Guardar">
+						<input type="submit" name="accion" value="Guardar y salir">
 						<input type="submit" name="accion" value="Guardar y siguiente" class="siguiente">
 						<a href="verHorario.php" class="cancelar">Cancelar</a>
 					</div>

@@ -26,5 +26,16 @@
                 return false;
             }
         }
+
+        public function obtenerUna($clase, $dia, $hora) {
+            $sql = "SELECT asignatura, profesor FROM horario WHERE clase = '" . $clase . "' AND dia = " . $dia . " AND hora = " . $hora;
+            $resultado = $this->conexion->query($sql);
+            return $resultado->fetch_assoc();
+        }
+
+        public function borrar($clase, $dia, $hora) {
+            $sql = "DELETE FROM horario WHERE clase = '" . $clase . "' AND dia = " . $dia . " AND hora = " . $hora;
+            $this->conexion->query($sql);
+        }
     }
 ?>
