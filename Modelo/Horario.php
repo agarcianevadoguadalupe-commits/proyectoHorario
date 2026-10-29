@@ -20,7 +20,11 @@
 
         public function guardar($clase, $dia, $hora, $asignatura, $profesor) {
             $sql = "INSERT INTO horario (clase, dia, hora, asignatura, profesor) VALUES ('" . $clase . "', " . $dia . ", " . $hora . ", '" . $asignatura . "', '" . $profesor . "')";
-            $this->conexion->query($sql);
+            try {
+                return $this->conexion->query($sql);
+            } catch (Exception $e) {
+                return false;
+            }
         }
     }
 ?>

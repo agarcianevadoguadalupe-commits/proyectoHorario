@@ -36,6 +36,12 @@ $dias = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
 			<section class="tarjeta">
 				<h1>Alta de horario</h1>
 
+				<?php
+					if (isset($_GET["error"])) {
+						echo "<p class=\"error\">Ya existe una asignatura a esa hora ese día</p>\n";
+					}
+				?>
+
 				<form action="../Controlador/guardar.php" method="post">
 
 					<div class="campo">

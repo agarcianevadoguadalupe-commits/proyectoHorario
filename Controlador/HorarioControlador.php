@@ -18,9 +18,14 @@ class HorarioControlador {
 		$dia = $_POST["dia"];
 		$hora = $_POST["hora"];
 
-		$this->modelo->guardar($clase, $dia, $hora, $_POST["asignatura"], $_POST["profesor"]);
+		$correcto = $this->modelo->guardar($clase, $dia, $hora, $_POST["asignatura"], $_POST["profesor"]);
 
 		if ($accion == "Guardar y siguiente") {
+			if ($correcto == false) {
+				header("Location: ../Vista/altaHorario.php?clase=" . $clase . "&dia=" . $dia . "&hora=" . $hora . "&error=1");
+				return;
+			}
+			
 			if ($dia == 1) {
 				$ultimaHora = 7;
 			} else {

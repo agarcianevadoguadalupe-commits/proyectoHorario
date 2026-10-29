@@ -158,3 +158,8 @@ td {
 	font-style: italic;
 	color: #222222;
 }
+
+/* En caso de error */
+.error {
+	color: #b00020;
+}
