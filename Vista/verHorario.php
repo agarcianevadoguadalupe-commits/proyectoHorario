@@ -3,6 +3,7 @@ require "../Controlador/HorarioControlador.php";
 
 // Franjas horarias (la hora 1 es la primera)
 $franjas = array("08:15 - 09:10", "09:10 - 10:05", "10:05 - 11:00", "11:30 - 12:25", "12:25 - 13:20", "13:20 - 14:15", "14:15 - 15:00");
+$dias = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
 
 $colores = array(
 	"IP" => "ip",
@@ -42,13 +43,17 @@ $horario = $controlador->ver("2DAW");
 	<main>
 		<table>
 			<?php
+				// Fila de encabezado con los días
+				echo "<tr>\n";
+				echo "<th></th>\n";
+				for ($i = 0; $i < 5; $i++) {
+					echo "<th>" . $dias[$i] . "</th>\n";
+				}
+				echo "</tr>\n";
+				?>
+			<?php
 			// Una fila por cada hora
 			for ($hora = 1; $hora <= 7; $hora++) {
-				echo "<tr>\n";
-				echo "<td>" . $franjas[$hora - 1] . "</td>\n";
-
-				// Una celda por cada día
-				for ($dia = 1; $dia <= 5; $dia++) {
 					if (isset($horario[$dia][$hora])) {
 						$asignatura = $horario[$dia][$hora];
 						echo "<td class=\"" . $colores[$asignatura] . "\">" . $asignatura . "</td>\n";
