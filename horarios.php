@@ -1,5 +1,5 @@
 <?php
-require "conexionDB.php";
+require "HorarioControlador.php";
 
 // Franjas horarias (la hora 1 es la primera)
 $franjas = array("08:15 - 09:10", "09:10 - 10:05", "10:05 - 11:00", "11:30 - 12:25", "12:25 - 13:20", "13:20 - 14:15", "14:15 - 15:00");
@@ -17,14 +17,8 @@ $colores = array(
 	"TUTORÍA" => "tutoria"
 );
 
-// Leer el horario de 2DAW
-$sql = "SELECT dia, hora, asignatura FROM horario WHERE clase = '2DAW'";
-$resultado = $conexion->query($sql);
-
-$horario = array();
-while ($fila = $resultado->fetch_assoc()) {
-	$horario[$fila["dia"]][$fila["hora"]] = $fila["asignatura"];
-}
+$controlador = new HorarioControlador();
+$horario = $controlador->ver("2DAW");
 ?>
 
 <!DOCTYPE html>
