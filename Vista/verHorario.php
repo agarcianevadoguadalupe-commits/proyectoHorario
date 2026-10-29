@@ -24,36 +24,40 @@ $horario = $controlador->ver("2DAW");
 
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>Horario 2DAW</title>
-        <link rel="stylesheet" href="estilos.css">
-    </head>
-    <body>
-        <header class="cabecera">
-            <a href="https://fundacionloyola.com/vguadalupe/" class="logoEVG">
-                <img src="https://fundacionloyola.com/vguadalupe/wp-content/uploads/2019/12/logotipo.png" alt="Logotipo EVG">
-            </a>
-            <nav class="menu">
-                <a href="clases.php" class="activo">Clases</a>
-            </nav>
-            <a href="altaHorario.php" class="sesion">Iniciar sesión</a>
-        </header>
+<head>
+	<meta charset="UTF-8">
+	<title>Horario 2DAW</title>
+	<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+	<header class="cabecera">
+		<a href="https://fundacionloyola.com/vguadalupe/" class="logoEVG">
+			<img src="https://fundacionloyola.com/vguadalupe/wp-content/uploads/2019/12/logotipo.png" alt="Logotipo EVG">
+		</a>
+		<nav class="menu">
+			<a href="clases.php" class="activo">Clases</a>
+		</nav>
+		<a href="altaHorario.php" class="sesion">Iniciar sesión</a>
+	</header>
 
 	<main>
 		<table>
 			<?php
-				// Fila de encabezado con los días
-				echo "<tr>\n";
-				echo "<th></th>\n";
-				for ($i = 0; $i < 5; $i++) {
-					echo "<th>" . $dias[$i] . "</th>\n";
-				}
-				echo "</tr>\n";
-				?>
-			<?php
+			// Fila de encabezado con los días
+			echo "<tr>\n";
+			echo "<th></th>\n";
+			for ($i = 0; $i < 5; $i++) {
+				echo "<th>" . $dias[$i] . "</th>\n";
+			}
+			echo "</tr>\n";
+
 			// Una fila por cada hora
 			for ($hora = 1; $hora <= 7; $hora++) {
+				echo "<tr>\n";
+				echo "<td>" . $franjas[$hora - 1] . "</td>\n";
+
+				// Una celda por cada día
+				for ($dia = 1; $dia <= 5; $dia++) {
 					if (isset($horario[$dia][$hora])) {
 						$asignatura = $horario[$dia][$hora];
 						echo "<td class=\"" . $colores[$asignatura] . "\">" . $asignatura . "</td>\n";
@@ -77,6 +81,5 @@ $horario = $controlador->ver("2DAW");
 
 		<a href="altaHorario.php">Alta de horario</a>
 	</main>
-
 </body>
 </html>
