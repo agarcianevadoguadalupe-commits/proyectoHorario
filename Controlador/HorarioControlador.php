@@ -1,5 +1,5 @@
 <?php
-require "Horario.php";
+require "../Modelo/Horario.php";
 
 class HorarioControlador {
 	private $modelo;
@@ -35,12 +35,12 @@ class HorarioControlador {
 			}
 
 			if ($dia > 5) {
-				header("Location: horarios.php?clase=" . $clase);
+				header("Location: ../Vista/verHorario.php?clase=" . $clase);
 			} else {
-				header("Location: altaHorarios.php?clase=" . $clase . "&dia=" . $dia . "&hora=" . $hora);
+				header("Location: ../Vista/altaHorario.php?clase=" . $clase . "&dia=" . $dia . "&hora=" . $hora);
 			}
 		} else {
-			header("Location: horarios.php?clase=" . $clase);
+			header("Location: ../Vista/verHorario.php?clase=" . $clase);
 		}
 	}
 }

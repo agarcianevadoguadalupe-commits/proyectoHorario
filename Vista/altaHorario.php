@@ -24,7 +24,7 @@ $dias = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
 				<img src="https://fundacionloyola.com/vguadalupe/wp-content/uploads/2019/12/logotipo.png" alt="Logotipo EVG">
 			</a>
 			<nav class="menu">
-				<a href="horarios.php" class="activo">Horarios</a>
+				<a href="verHorario.php" class="activo">Horarios</a>
 				<a href="asignaturas.php">Asignaturas</a>
 				<a href="profesores.php">Profesores</a>
 				<a href="clases.php">Clases</a>
@@ -36,7 +36,7 @@ $dias = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
 			<section class="tarjeta">
 				<h1>Alta de horario</h1>
 
-				<form action="guardarHorario.php" method="post">
+				<form action="../Controlador/guardar.php" method="post">
 
 					<div class="campo">
 						<label for="claseVisible">Clase</label>

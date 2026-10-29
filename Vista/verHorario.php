@@ -1,5 +1,5 @@
 <?php
-require "HorarioControlador.php";
+require "../Controlador/HorarioControlador.php";
 
 // Franjas horarias (la hora 1 es la primera)
 $franjas = array("08:15 - 09:10", "09:10 - 10:05", "10:05 - 11:00", "11:30 - 12:25", "12:25 - 13:20", "13:20 - 14:15", "14:15 - 15:00");
@@ -36,7 +36,7 @@ $horario = $controlador->ver("2DAW");
             <nav class="menu">
                 <a href="clases.php" class="activo">Clases</a>
             </nav>
-            <a href="altaHorarios.php" class="sesion">Iniciar sesión</a>
+            <a href="altaHorario.php" class="sesion">Iniciar sesión</a>
         </header>
 
 	<main>
@@ -70,7 +70,7 @@ $horario = $controlador->ver("2DAW");
 			?>
 		</table>
 
-		<a href="altaHorarios.php">Alta de horario</a>
+		<a href="altaHorario.php">Alta de horario</a>
 	</main>
 
 </body>
