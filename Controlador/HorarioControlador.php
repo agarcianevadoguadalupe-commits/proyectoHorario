@@ -16,13 +16,17 @@ class HorarioControlador {
 		return $this->modelo->obtenerUna($clase, $dia, $hora);
 	}
 
+	public function verAsignaturas($clase) {
+		return $this->modelo->obtenerAsignaturas($clase);
+	}
+
 	public function guardar() {
 		$accion = $_POST["accion"];
 		$clase = $_POST["clase"];
 		$dia = $_POST["dia"];
 		$hora = $_POST["hora"];
 
-		$correcto = $this->modelo->guardar($clase, $dia, $hora, $_POST["asignatura"], $_POST["profesor"]);
+		$correcto = $this->modelo->guardar($clase, $dia, $hora, $_POST["asignatura"]);
 
 		if ($correcto == false) {
 			header("Location: ../Vista/altaHorario.php?clase=" . $clase . "&dia=" . $dia . "&hora=" . $hora . "&error=1");

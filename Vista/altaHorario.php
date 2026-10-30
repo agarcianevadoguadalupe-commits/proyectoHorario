@@ -1,4 +1,9 @@
 <?php
+require "../Controlador/HorarioControlador.php";
+
+$controlador = new HorarioControlador();
+$asignaturas = $controlador->verAsignaturas("2DAW");
+
 $dia = 1;
 $hora = 1;
 
@@ -84,27 +89,11 @@ $dias = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
 					<div class="campo">
 						<label for="asignatura">Asignatura</label>
 						<select name="asignatura" id="asignatura">
-							<option value="CLIENTE">Cliente</option>
-							<option value="SERVIDOR">Servidor</option>
-							<option value="DESPLIEGUE">Despliegue</option>
-							<option value="IP">IP</option>
-							<option value="PIMOD">PIMOD</option>
-							<option value="SOST.">SOST.</option>
-							<option value="OPT. 1">OPT. 1</option>
-							<option value="OPT. 2">OPT. 2</option>
-							<option value="DIGIT.">DIGIT.</option>
-							<option value="TUTORÍA">Tutoría</option>
-						</select>
-					</div>
-
-					<div class="campo">
-						<label for="profesor">Profesor</label>
-						<select name="profesor" id="profesor">
-							<option value="Alberto">Alberto</option>
-							<option value="Ernesto">Ernesto</option>
-							<option value="Isabel">Isabel</option>
-							<option value="Luis">Luis</option>
-							<option value="Santi">Santi</option>
+							<?php
+							for ($i = 0; $i < count($asignaturas); $i++) {
+								echo "<option value=\"" . $asignaturas[$i]["nombre"] . "\">" . $asignaturas[$i]["nombre"] . " (" . $asignaturas[$i]["profesor"] . ")</option>\n";
+							}
+							?>
 						</select>
 					</div>
 
