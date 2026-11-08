@@ -1,6 +1,4 @@
 <?php
-require "../Controlador/HorarioControlador.php";
-
 // Franjas horarias (la hora 1 es la primera)
 $franjas = array("08:15 - 09:10", "09:10 - 10:05", "10:05 - 11:00", "11:30 - 12:25", "12:25 - 13:20", "13:20 - 14:15", "14:15 - 15:00");
 $dias = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
@@ -18,16 +16,15 @@ $colores = array(
 	"TUTORÍA" => "tutoria"
 );
 
-$controlador = new HorarioControlador();
-$horario = $controlador->ver("2DAW");
+$horario = $this->horario;
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<meta charset="UTF-8">
-	<title>Horario 2DAW</title>
-	<link rel="stylesheet" href="estilos.css">
+<meta charset="UTF-8">
+<title>Horario <?php echo $this->clase; ?></title>
+<link rel="stylesheet" href="Vista/estilos.css">
 </head>
 <body>
 	<header class="cabecera">
@@ -37,10 +34,16 @@ $horario = $controlador->ver("2DAW");
 		<nav class="menu">
 			<a href="clases.php" class="activo">Clases</a>
 		</nav>
-		<a href="altaHorario.php" class="sesion">Iniciar sesión</a>
+		<a href="index.php?controlador=cAsignatura&accion=alta&clase=<?php echo $this->clase; ?>" class="sesion">Iniciar sesión</a>
 	</header>
 
 	<main>
+		<?php
+		if ($this->error != "") {
+			echo "<p class=\"error\">" . $this->error . "</p>\n";
+		}
+		?>
+
 		<table>
 			<?php
 			// Fila de encabezado con los días
@@ -79,8 +82,8 @@ $horario = $controlador->ver("2DAW");
 			?>
 		</table>
 
-		<a href="altaHorario.php" class="botonAlta">Alta de horario</a>
-		<a href="bajaHorario.php" class="botonBaja">Baja de horario</a>
+		<a href="index.php?controlador=cAsignatura&accion=alta&clase=<?php echo $this->clase; ?>" class="botonAlta">Alta de horario</a>
+		<a href="index.php?controlador=cAsignatura&accion=baja&clase=<?php echo $this->clase; ?>" class="botonBaja">Baja de horario</a>
 	</main>
 </body>
 </html>
