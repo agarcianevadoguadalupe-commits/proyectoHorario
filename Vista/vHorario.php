@@ -1,5 +1,4 @@
 <?php
-// Franjas horarias (la hora 1 es la primera)
 $franjas = array("08:15 - 09:10", "09:10 - 10:05", "10:05 - 11:00", "11:30 - 12:25", "12:25 - 13:20", "13:20 - 14:15", "14:15 - 15:00");
 $dias = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
 

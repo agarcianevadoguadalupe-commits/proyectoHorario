@@ -1,4 +1,5 @@
 <?php
+// Carga el modelo que va a usar.
 require "Modelo/mAsignatura.php";
 
 class cAsignatura {
@@ -14,7 +15,7 @@ class cAsignatura {
 	public $boton = "";
 	public $error = "";
 
-	// Mensajes de error
+	// Mensajes de error (se podría usar un array pero me parece más conveniente así)
 	private $errorDatos = "Faltan datos en el formulario";
 	private $errorClase = "La clase no existe";
 	private $errorDia = "El día no es válido";
@@ -23,6 +24,7 @@ class cAsignatura {
 	private $errorDuplicado = "Ya existe una asignatura a esa hora ese día";
 	private $errorNoHay = "No hay ninguna asignatura a esa hora ese día";
 
+	// Lista de clases permitidas.
 	private $clases = array("1DAW", "1SMR", "2DAW", "2SMR");
 	private $modelo;
 
@@ -30,22 +32,25 @@ class cAsignatura {
 		$this->modelo = new mAsignatura();
 	}
 
+	// Carga el archivo de vista en $vista
 	public function mostrar() {
 		require "Vista/" . $this->vista;
 	}
 
-	// Muestra el formulario de alta
+	// Carga y valida los datos del GET. Pide las asignaturas para el desplegable
+	// y termina con vAltaHorario
 	public function alta() {
 		$this->cargarDatos($_GET);
 		$this->asignaturas = $this->modelo->obtenerAsignaturas($this->clase);
 		$this->vista = "vAltaHorario.php";
 	}
 
-	// Guarda la asignatura en el horario
+	// Hace un INSTERT de la asignatura seleccionada en la clase y horas seleccionada.
 	public function guardar() {
-		// Si algo falla se vuelve a mostrar el formulario de alta
+		// Apunta primero a la vista para mostrar el error en pantalla en cuyo caso.
 		$this->vista = "vAltaHorario.php";
 
+		// Carga y valida los datos existentes con los introducidos.
 		$this->cargarDatos($_POST);
 		$this->asignaturas = $this->modelo->obtenerAsignaturas($this->clase);
 
@@ -53,17 +58,18 @@ class cAsignatura {
 			return;
 		}
 
+		// Comprueba que los datos llegaron
 		if ($this->llegaronDatos() == false) {
 			$this->error = $this->errorDatos;
 			return;
 		}
 
-		// La asignatura tiene que ser una de las de esa clase
 		$asignatura = "";
 		if (isset($_POST["asignatura"])) {
 			$asignatura = $_POST["asignatura"];
 		}
 
+		// Comprueba si la asignatura pertenedce a la clase
 		$existe = false;
 		for ($i = 0; $i < count($this->asignaturas); $i++) {
 			if ($this->asignaturas[$i]["nombre"] == $asignatura) {
@@ -83,6 +89,7 @@ class cAsignatura {
 			return;
 		}
 
+		// Si todo sale bien, comprueba si está seleccionado guardar y salir o siguiente.
 		if (isset($_POST["boton"]) && $_POST["boton"] == "Guardar y siguiente") {
 			$this->siguiente("alta");
 		} else {
