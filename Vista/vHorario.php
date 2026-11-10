@@ -20,11 +20,13 @@ $horario = $this->horario;
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<title>Horario <?php echo $this->clase; ?></title>
-<link rel="stylesheet" href="Vista/estilos.css">
+	<meta charset="UTF-8">
+	<title>Horario <?php echo $this->clase; ?></title>
+	<link rel="stylesheet" href="Vista/estilos.css">
 </head>
+
 <body>
 	<header class="cabecera">
 		<a href="https://fundacionloyola.com/vguadalupe/" class="logoEVG">
@@ -85,4 +87,5 @@ $horario = $this->horario;
 		<a href="index.php?controlador=cAsignatura&accion=baja&clase=<?php echo $this->clase; ?>" class="botonBaja">Baja de horario</a>
 	</main>
 </body>
+
 </html>

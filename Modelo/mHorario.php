@@ -2,17 +2,20 @@
 // Carga la clase conexión
 require "conexionDB.php";
 
-class mHorario {
+class mHorario
+{
 	// Objeto de la clase conexión
 	private $conexion;
 
-	public function __construct() {
+	public function __construct()
+	{
 		$objetoConexion = new Conexion();
 		$this->conexion = $objetoConexion->conectar();
 	}
 
 	// Monta el SELECT y devuelve el array de cada asignatura del horario
-	public function obtener($clase) {
+	public function obtener($clase)
+	{
 		$sql = "SELECT dia, hora, asignatura FROM horario WHERE clase = '" . $clase . "'";
 		$resultado = $this->conexion->query($sql);
 
@@ -23,5 +26,3 @@ class mHorario {
 		return $horario;
 	}
 }
-
-?>

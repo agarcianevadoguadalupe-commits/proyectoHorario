@@ -8,11 +8,13 @@ $hora = $this->hora;
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<title>Alta de horario</title>
-<link rel="stylesheet" href="Vista/estilos.css">
+	<meta charset="UTF-8">
+	<title>Alta de horario</title>
+	<link rel="stylesheet" href="Vista/estilos.css">
 </head>
+
 <body>
 	<header class="cabecera">
 		<a href="https://fundacionloyola.com/vguadalupe/" class="logoEVG">
@@ -97,4 +99,5 @@ $hora = $this->hora;
 		</section>
 	</main>
 </body>
+
 </html>

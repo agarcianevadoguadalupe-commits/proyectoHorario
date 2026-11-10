@@ -2,7 +2,8 @@
 // Carga el modelo que va a usar.
 require "Modelo/mAsignatura.php";
 
-class cAsignatura {
+class cAsignatura
+{
 	// Archivo de la vista que lanzará el index al terminar la acción
 	public $vista = "";
 
@@ -28,25 +29,29 @@ class cAsignatura {
 	private $clases = array("1DAW", "1SMR", "2DAW", "2SMR");
 	private $modelo;
 
-	public function __construct() {
+	public function __construct()
+	{
 		$this->modelo = new mAsignatura();
 	}
 
 	// Carga el archivo de vista en $vista
-	public function mostrar() {
+	public function mostrar()
+	{
 		require "Vista/" . $this->vista;
 	}
 
 	// Carga y valida los datos del GET. Pide las asignaturas para el desplegable
 	// y termina con vAltaHorario
-	public function alta() {
+	public function alta()
+	{
 		$this->cargarDatos($_GET);
 		$this->asignaturas = $this->modelo->obtenerAsignaturas($this->clase);
 		$this->vista = "vAltaHorario.php";
 	}
 
 	// Hace un INSTERT de la asignatura seleccionada en la clase y horas seleccionada.
-	public function guardar() {
+	public function guardar()
+	{
 		// Apunta primero a la vista para mostrar el error en pantalla en cuyo caso.
 		$this->vista = "vAltaHorario.php";
 
@@ -99,7 +104,8 @@ class cAsignatura {
 	}
 
 	// Muestra el formulario de baja (y la confirmación si se ha pulsado un botón)
-	public function baja() {
+	public function baja()
+	{
 		$this->vista = "vBajaHorario.php";
 
 		$this->cargarDatos($_GET);
@@ -123,7 +129,8 @@ class cAsignatura {
 	}
 
 	// Borra la asignatura del horario
-	public function borrar() {
+	public function borrar()
+	{
 		// Si algo falla se vuelve a mostrar el formulario de baja
 		$this->vista = "vBajaHorario.php";
 
@@ -150,7 +157,8 @@ class cAsignatura {
 
 	// Lee clase, día y hora de $_GET o $_POST y los valida.
 	// Si algo falla guarda el mensaje en $this->error y se queda con los valores por defecto
-	private function cargarDatos($datos) {
+	private function cargarDatos($datos)
+	{
 		$this->error = "";
 
 		if (isset($datos["clase"])) {
@@ -181,12 +189,14 @@ class cAsignatura {
 	}
 
 	// Comprueba que el formulario ha enviado clase, día y hora
-	private function llegaronDatos() {
+	private function llegaronDatos()
+	{
 		return isset($_POST["clase"]) && isset($_POST["dia"]) && isset($_POST["hora"]);
 	}
 
 	// El lunes hay 7 horas y el resto de días 6
-	private function ultimaHora($dia) {
+	private function ultimaHora($dia)
+	{
 		if ($dia == 1) {
 			return 7;
 		}
@@ -194,7 +204,8 @@ class cAsignatura {
 	}
 
 	// Pasa a la hora siguiente y vuelve a la misma acción (alta o baja)
-	private function siguiente($accion) {
+	private function siguiente($accion)
+	{
 		$dia = $this->dia;
 		$hora = $this->hora + 1;
 
@@ -211,5 +222,3 @@ class cAsignatura {
 		exit;
 	}
 }
-
-?>

@@ -2,7 +2,8 @@
 // Carga el modelo que va a usar.
 require "Modelo/mHorario.php";
 
-class cHorario {
+class cHorario
+{
 	// Archivo de la vista que lanzará el index al terminar la acción
 	public $vista = "";
 
@@ -22,18 +23,21 @@ class cHorario {
 	// Objetod el modelo
 	private $modelo;
 
-	public function __construct() {
+	public function __construct()
+	{
 		$this->modelo = new mHorario();
 	}
 
 	// Carga el archivo de vista en $vista
-	public function mostrar() {
+	public function mostrar()
+	{
 		require "Vista/" . $this->vista;
 	}
 
 	// Si llega una clase por GET comprueba que esté en la lista, si es válida la guarda (siempre lo será).
 	// Luego pide el horario y apunta vHorario.php como vista.
-	public function ver() {
+	public function ver()
+	{
 		if (isset($_GET["clase"])) {
 			if (in_array($_GET["clase"], $this->clases)) {
 				$this->clase = $_GET["clase"];
@@ -46,5 +50,3 @@ class cHorario {
 		$this->vista = "vHorario.php";
 	}
 }
-
-?>

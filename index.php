@@ -14,9 +14,11 @@ $valido = false;
 if ($controlador == "cHorario" && $accion == "ver") {
 	$valido = true;
 }
+
 if ($controlador == "cAsignatura" && ($accion == "alta" || $accion == "guardar" || $accion == "baja" || $accion == "borrar")) {
 	$valido = true;
 }
+
 if ($valido == false) {
 	$controlador = "cHorario";
 	$accion = "ver";
@@ -29,4 +31,3 @@ $objeto = new $controlador();
 // Ejecuta las acciones que rellena atributos y carga la vista
 $objeto->$accion();
 $objeto->mostrar();
-?>
