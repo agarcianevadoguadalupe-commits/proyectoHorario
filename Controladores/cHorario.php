@@ -28,11 +28,11 @@ class cHorario
 		$this->modelo = new mHorario();
 	}
 
-	// Carga el archivo de vista en $vista
-	public function mostrar()
+	// Carga el archivo de vista en $vista (mejor la versión de esto en el index)
+	/*public function mostrar()
 	{
 		require "Vista/" . $this->vista;
-	}
+	}*/
 
 	// Si llega una clase por GET comprueba que esté en la lista, si es válida la guarda (siempre lo será).
 	// Luego pide el horario y apunta vHorario.php como vista.

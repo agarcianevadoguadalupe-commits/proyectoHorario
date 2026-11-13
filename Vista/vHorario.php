@@ -35,7 +35,7 @@ $horario = $this->horario;
 		<nav class="menu">
 			<a href="clases.php" class="activo">Clases</a>
 		</nav>
-		<a href="index.php?controlador=cAsignatura&accion=alta&clase=<?php echo $this->clase; ?>" class="sesion">Iniciar sesión</a>
+		<a href="index.php?controlador=cAsignatura&metodo=alta&clase=<?php echo $this->clase; ?>" class="sesion">Iniciar sesión</a>
 	</header>
 
 	<main>
@@ -83,8 +83,8 @@ $horario = $this->horario;
 			?>
 		</table>
 
-		<a href="index.php?controlador=cAsignatura&accion=alta&clase=<?php echo $this->clase; ?>" class="botonAlta">Alta de horario</a>
-		<a href="index.php?controlador=cAsignatura&accion=baja&clase=<?php echo $this->clase; ?>" class="botonBaja">Baja de horario</a>
+		<a href="index.php?controlador=cAsignatura&metodo=alta&clase=<?php echo $this->clase; ?>" class="botonAlta">Alta de horario</a>
+		<a href="index.php?controlador=cAsignatura&metodo=baja&clase=<?php echo $this->clase; ?>" class="botonBaja">Baja de horario</a>
 	</main>
 </body>
 

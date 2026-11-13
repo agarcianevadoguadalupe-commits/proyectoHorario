@@ -34,11 +34,11 @@ class cAsignatura
 		$this->modelo = new mAsignatura();
 	}
 
-	// Carga el archivo de vista en $vista
-	public function mostrar()
+	// Carga el archivo de vista en $vista (mejor la versión de esto en el index)
+	/*public function mostrar()
 	{
 		require "Vista/" . $this->vista;
-	}
+	}*/
 
 	// Carga y valida los datos del GET. Pide las asignaturas para el desplegable
 	// y termina con vAltaHorario
@@ -98,7 +98,7 @@ class cAsignatura
 		if (isset($_POST["boton"]) && $_POST["boton"] == "Guardar y siguiente") {
 			$this->siguiente("alta");
 		} else {
-			header("Location: index.php?controlador=cHorario&accion=ver&clase=" . $this->clase);
+			header("Location: index.php?controlador=cHorario&metodo=ver&clase=" . $this->clase);
 			exit;
 		}
 	}
@@ -150,7 +150,7 @@ class cAsignatura
 		if (isset($_POST["boton"]) && $_POST["boton"] == "Borrar y siguiente") {
 			$this->siguiente("baja");
 		} else {
-			header("Location: index.php?controlador=cHorario&accion=ver&clase=" . $this->clase);
+			header("Location: index.php?controlador=cHorario&metodo=ver&clase=" . $this->clase);
 			exit;
 		}
 	}
@@ -204,7 +204,7 @@ class cAsignatura
 	}
 
 	// Pasa a la hora siguiente y vuelve a la misma acción (alta o baja)
-	private function siguiente($accion)
+	private function siguiente($metodo)
 	{
 		$dia = $this->dia;
 		$hora = $this->hora + 1;
@@ -215,9 +215,9 @@ class cAsignatura
 		}
 
 		if ($dia > 5) {
-			header("Location: index.php?controlador=cHorario&accion=ver&clase=" . $this->clase);
+			header("Location: index.php?controlador=cHorario&metodo=ver&clase=" . $this->clase);
 		} else {
-			header("Location: index.php?controlador=cAsignatura&accion=" . $accion . "&clase=" . $this->clase . "&dia=" . $dia . "&hora=" . $hora);
+			header("Location: index.php?controlador=cAsignatura&metodo=" . $metodo . "&clase=" . $this->clase . "&dia=" . $dia . "&hora=" . $hora);
 		}
 		exit;
 	}
