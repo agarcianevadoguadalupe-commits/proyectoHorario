@@ -1,9 +1,5 @@
 <?php
 $dias = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
-
-$fila = $this->fila;
-$dia = $this->dia;
-$hora = $this->hora;
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +17,7 @@ $hora = $this->hora;
 			<img src="https://fundacionloyola.com/vguadalupe/wp-content/uploads/2019/12/logotipo.png" alt="Logotipo EVG">
 		</a>
 		<nav class="menu">
-			<a href="index.php?controlador=cHorario&metodo=ver&clase=<?php echo $this->clase; ?>" class="activo">Horarios</a>
+			<a href="index.php?controlador=cHorario&metodo=ver&clase=<?php echo $datos["clase"]; ?>" class="activo">Horarios</a>
 			<a href="asignaturas.php">Asignaturas</a>
 			<a href="profesores.php">Profesores</a>
 			<a href="clases.php">Clases</a>
@@ -34,25 +30,25 @@ $hora = $this->hora;
 			<h1>Baja de horario</h1>
 
 			<?php
-			if ($this->error != "") {
-				echo "<p class=\"error\">" . $this->error . "</p>\n";
-			} else if ($this->boton != "") {
-				echo "<p class=\"error\">¿Seguro que quieres borrar " . $fila["asignatura"] . " (" . $fila["profesor"] . ") del " . $dias[$dia - 1] . " a " . $hora . "ª hora?</p>\n";
-				echo "<form action=\"index.php?controlador=cAsignatura&metodo=borrar\" method=\"post\">\n";
-				echo "<input type=\"hidden\" name=\"clase\" value=\"" . $this->clase . "\">\n";
-				echo "<input type=\"hidden\" name=\"dia\" value=\"" . $dia . "\">\n";
-				echo "<input type=\"hidden\" name=\"hora\" value=\"" . $hora . "\">\n";
-				echo "<input type=\"hidden\" name=\"boton\" value=\"" . $this->boton . "\">\n";
-				echo "<input type=\"submit\" value=\"Sí, borrar\">\n";
-				echo "<a href=\"index.php?controlador=cAsignatura&metodo=baja&clase=" . $this->clase . "&dia=" . $dia . "&hora=" . $hora . "\" class=\"cancelar\">No</a>\n";
-				echo "</form>\n";
+			if ($datos["error"] != "") {
+				echo "<p class='error'>" . $datos["error"] . "</p>";
+			} else if ($datos["boton"] != "") {
+				echo "<p class='error'>¿Seguro que quieres borrar " . $datos["fila"]["asignatura"] . " (" . $datos["fila"]["profesor"] . ") del " . $dias[$datos["dia"] - 1] . " a " . $datos["hora"] . "ª hora?</p>";
+				echo "<form action='index.php?controlador=cAsignatura&metodo=borrar' method='post'>";
+				echo "<input type='hidden' name='clase' value='" . $datos["clase"] . "'>";
+				echo "<input type='hidden' name='dia' value='" . $datos["dia"] . "'>";
+				echo "<input type='hidden' name='hora' value='" . $datos["hora"] . "'>";
+				echo "<input type='hidden' name='boton' value='" . $datos["boton"] . "'>";
+				echo "<input type='submit' value='Sí, borrar'>";
+				echo "<a href='index.php?controlador=cAsignatura&metodo=baja&clase=" . $datos["clase"] . "&dia=" . $datos["dia"] . "&hora=" . $datos["hora"] . "' class='cancelar'>No</a>";
+				echo "</form>";
 			}
 			?>
 
 			<form action="index.php" method="get">
 				<input type="hidden" name="controlador" value="cAsignatura">
 				<input type="hidden" name="metodo" value="baja">
-				<input type="hidden" name="clase" value="<?php echo $this->clase; ?>">
+				<input type="hidden" name="clase" value="<?php echo $datos["clase"]; ?>">
 
 				<div class="campo">
 					<label for="dia">Día</label>
@@ -61,7 +57,7 @@ $hora = $this->hora;
 						for ($i = 0; $i < 5; $i++) {
 							$valor = $i + 1;
 							$seleccionado = "";
-							if ($valor == $dia) {
+							if ($valor == $datos["dia"]) {
 								$seleccionado = " selected";
 							}
 							echo "<option value=\"" . $valor . "\"" . $seleccionado . ">" . $dias[$i] . "</option>\n";
@@ -76,7 +72,7 @@ $hora = $this->hora;
 						<?php
 						for ($i = 1; $i <= 7; $i++) {
 							$seleccionado = "";
-							if ($i == $hora) {
+							if ($i == $datos["hora"]) {
 								$seleccionado = " selected";
 							}
 							echo "<option value=\"" . $i . "\"" . $seleccionado . ">" . $i . "ª hora</option>\n";
@@ -88,7 +84,7 @@ $hora = $this->hora;
 				<div class="botones">
 					<input type="submit" name="boton" value="Borrar">
 					<input type="submit" name="boton" value="Borrar y siguiente" class="siguiente">
-					<a href="index.php?controlador=cHorario&metodo=ver&clase=<?php echo $this->clase; ?>" class="cancelar">Cancelar</a>
+					<a href="index.php?controlador=cHorario&metodo=ver&clase=<?php echo $datos["clase"]; ?>" class="cancelar">Cancelar</a>
 				</div>
 
 			</form>

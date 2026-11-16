@@ -28,6 +28,8 @@ if ($valido == false) {
 require "Controladores/" . $controlador . ".php";
 $objeto = new $controlador();
 
-// Ejecuta las metodoes que rellena atributos y carga la vista
-$objeto->$metodo();
+// Ejecuta el método, que devuelve el array $datos y apunta la vista en $vista
+$datos = $objeto->$metodo();
+
+// Carga la vista, que usa el array $datos
 require "Vista/" . $objeto->vista;

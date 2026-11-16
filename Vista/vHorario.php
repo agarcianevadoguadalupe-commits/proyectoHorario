@@ -15,7 +15,6 @@ $colores = array(
 	"TUTORÍA" => "tutoria"
 );
 
-$horario = $this->horario;
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +22,7 @@ $horario = $this->horario;
 
 <head>
 	<meta charset="UTF-8">
-	<title>Horario <?php echo $this->clase; ?></title>
+	<title>Horario <?php echo $datos["clase"]; ?></title>
 	<link rel="stylesheet" href="Vista/estilos.css">
 </head>
 
@@ -35,13 +34,13 @@ $horario = $this->horario;
 		<nav class="menu">
 			<a href="clases.php" class="activo">Clases</a>
 		</nav>
-		<a href="index.php?controlador=cAsignatura&metodo=alta&clase=<?php echo $this->clase; ?>" class="sesion">Iniciar sesión</a>
+		<a href="index.php?controlador=cAsignatura&metodo=alta&clase=<?php echo $datos["clase"]; ?>" class="sesion">Iniciar sesión</a>
 	</header>
 
 	<main>
 		<?php
-		if ($this->error != "") {
-			echo "<p class=\"error\">" . $this->error . "</p>\n";
+		if ($datos["error"] != "") {
+			echo "<p class='error'>" . $datos["error"] . "</p>";
 		}
 		?>
 
@@ -62,9 +61,9 @@ $horario = $this->horario;
 
 				// Una celda por cada día
 				for ($dia = 1; $dia <= 5; $dia++) {
-					if (isset($horario[$dia][$hora])) {
-						$asignatura = $horario[$dia][$hora];
-						echo "<td class=\"" . $colores[$asignatura] . "\">" . $asignatura . "</td>\n";
+					if (isset($datos["horario"][$dia][$hora])) {
+						$asignatura = $datos["horario"][$dia][$hora];
+						echo "<td class='" . $colores[$asignatura] . "'>" . $asignatura . "</td>\n";
 					} else {
 						echo "<td></td>\n";
 					}
@@ -76,15 +75,15 @@ $horario = $this->horario;
 				if ($hora == 3) {
 					echo "<tr>\n";
 					echo "<td>11:00 - 11:30</td>\n";
-					echo "<td class=\"recreo\" colspan=\"5\">RECREO</td>\n";
+					echo "<td class='recreo' colspan='5'>RECREO</td>\n";
 					echo "</tr>\n";
 				}
 			}
 			?>
 		</table>
 
-		<a href="index.php?controlador=cAsignatura&metodo=alta&clase=<?php echo $this->clase; ?>" class="botonAlta">Alta de horario</a>
-		<a href="index.php?controlador=cAsignatura&metodo=baja&clase=<?php echo $this->clase; ?>" class="botonBaja">Baja de horario</a>
+		<a href="index.php?controlador=cAsignatura&metodo=alta&clase=<?php echo $datos["clase"]; ?>" class="botonAlta">Alta de horario</a>
+		<a href="index.php?controlador=cAsignatura&metodo=baja&clase=<?php echo $datos["clase"]; ?>" class="botonBaja">Baja de horario</a>
 	</main>
 </body>
 

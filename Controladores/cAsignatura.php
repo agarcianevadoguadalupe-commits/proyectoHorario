@@ -4,17 +4,8 @@ require "Modelo/mAsignatura.php";
 
 class cAsignatura
 {
-	// Archivo de la vista que lanzará el index al terminar la acción
+	// Archivo de la vista que lanzará el index al terminar el método
 	public $vista = "";
-
-	// Datos que usan las vistas
-	public $clase = "2DAW";
-	public $dia = 1;
-	public $hora = 1;
-	public $asignaturas = array();
-	public $fila = null;
-	public $boton = "";
-	public $error = "";
 
 	// Mensajes de error (se podría usar un array pero me parece más conveniente así)
 	private $errorDatos = "Faltan datos en el formulario";
@@ -34,39 +25,37 @@ class cAsignatura
 		$this->modelo = new mAsignatura();
 	}
 
-	// Carga el archivo de vista en $vista (mejor la versión de esto en el index)
-	/*public function mostrar()
-	{
-		require "Vista/" . $this->vista;
-	}*/
-
-	// Carga y valida los datos del GET. Pide las asignaturas para el desplegable
-	// y termina con vAltaHorario
+	// Carga y valida los datos del GET. Pide las asignaturas para el desplegable,
+	// apunta vAltaHorario como vista y devuelve $datos
 	public function alta()
 	{
-		$this->cargarDatos($_GET);
-		$this->asignaturas = $this->modelo->obtenerAsignaturas($this->clase);
 		$this->vista = "vAltaHorario.php";
+
+		$datos = $this->cargarDatos($_GET);
+		$datos["asignaturas"] = $this->modelo->obtenerAsignaturas($datos["clase"]);
+
+		return $datos;
 	}
 
-	// Hace un INSTERT de la asignatura seleccionada en la clase y horas seleccionada.
+	// Hace un INSERT de la asignatura seleccionada en la clase, día y hora seleccionados.
+	// Si algo falla devuelve $datos con el error para mostrarlo en el formulario de alta.
 	public function guardar()
 	{
 		// Apunta primero a la vista para mostrar el error en pantalla en cuyo caso.
 		$this->vista = "vAltaHorario.php";
 
-		// Carga y valida los datos existentes con los introducidos.
-		$this->cargarDatos($_POST);
-		$this->asignaturas = $this->modelo->obtenerAsignaturas($this->clase);
+		// Carga y valida los datos que llegan del formulario.
+		$datos = $this->cargarDatos($_POST);
+		$datos["asignaturas"] = $this->modelo->obtenerAsignaturas($datos["clase"]);
 
-		if ($this->error != "") {
-			return;
+		if ($datos["error"] != "") {
+			return $datos;
 		}
 
 		// Comprueba que los datos llegaron
 		if ($this->llegaronDatos() == false) {
-			$this->error = $this->errorDatos;
-			return;
+			$datos["error"] = $this->errorDatos;
+			return $datos;
 		}
 
 		$asignatura = "";
@@ -74,31 +63,31 @@ class cAsignatura
 			$asignatura = $_POST["asignatura"];
 		}
 
-		// Comprueba si la asignatura pertenedce a la clase
+		// Comprueba si la asignatura pertenece a la clase
 		$existe = false;
-		for ($i = 0; $i < count($this->asignaturas); $i++) {
-			if ($this->asignaturas[$i]["nombre"] == $asignatura) {
+		for ($i = 0; $i < count($datos["asignaturas"]); $i++) {
+			if ($datos["asignaturas"][$i]["nombre"] == $asignatura) {
 				$existe = true;
 			}
 		}
 
 		if ($existe == false) {
-			$this->error = $this->errorAsignatura;
-			return;
+			$datos["error"] = $this->errorAsignatura;
+			return $datos;
 		}
 
-		$correcto = $this->modelo->guardar($this->clase, $this->dia, $this->hora, $asignatura);
+		$correcto = $this->modelo->guardar($datos["clase"], $datos["dia"], $datos["hora"], $asignatura);
 
 		if ($correcto == false) {
-			$this->error = $this->errorDuplicado;
-			return;
+			$datos["error"] = $this->errorDuplicado;
+			return $datos;
 		}
 
 		// Si todo sale bien, comprueba si está seleccionado guardar y salir o siguiente.
 		if (isset($_POST["boton"]) && $_POST["boton"] == "Guardar y siguiente") {
-			$this->siguiente("alta");
+			$this->siguiente("alta", $datos);
 		} else {
-			header("Location: index.php?controlador=cHorario&metodo=ver&clase=" . $this->clase);
+			header("Location: index.php?controlador=cHorario&metodo=ver&clase=" . $datos["clase"]);
 			exit;
 		}
 	}
@@ -108,24 +97,26 @@ class cAsignatura
 	{
 		$this->vista = "vBajaHorario.php";
 
-		$this->cargarDatos($_GET);
+		$datos = $this->cargarDatos($_GET);
 
-		if ($this->error != "") {
-			return;
+		if ($datos["error"] != "") {
+			return $datos;
 		}
 
 		if (isset($_GET["boton"])) {
-			$this->boton = "Borrar";
+			$datos["boton"] = "Borrar";
 			if ($_GET["boton"] == "Borrar y siguiente") {
-				$this->boton = "Borrar y siguiente";
+				$datos["boton"] = "Borrar y siguiente";
 			}
 
-			$this->fila = $this->modelo->obtenerUna($this->clase, $this->dia, $this->hora);
+			$datos["fila"] = $this->modelo->obtenerUna($datos["clase"], $datos["dia"], $datos["hora"]);
 
-			if ($this->fila == null) {
-				$this->error = $this->errorNoHay;
+			if ($datos["fila"] == null) {
+				$datos["error"] = $this->errorNoHay;
 			}
 		}
+
+		return $datos;
 	}
 
 	// Borra la asignatura del horario
@@ -134,58 +125,69 @@ class cAsignatura
 		// Si algo falla se vuelve a mostrar el formulario de baja
 		$this->vista = "vBajaHorario.php";
 
-		$this->cargarDatos($_POST);
+		$datos = $this->cargarDatos($_POST);
 
-		if ($this->error != "") {
-			return;
+		if ($datos["error"] != "") {
+			return $datos;
 		}
 
 		if ($this->llegaronDatos() == false) {
-			$this->error = $this->errorDatos;
-			return;
+			$datos["error"] = $this->errorDatos;
+			return $datos;
 		}
 
-		$this->modelo->borrar($this->clase, $this->dia, $this->hora);
+		$this->modelo->borrar($datos["clase"], $datos["dia"], $datos["hora"]);
 
 		if (isset($_POST["boton"]) && $_POST["boton"] == "Borrar y siguiente") {
-			$this->siguiente("baja");
+			$this->siguiente("baja", $datos);
 		} else {
-			header("Location: index.php?controlador=cHorario&metodo=ver&clase=" . $this->clase);
+			header("Location: index.php?controlador=cHorario&metodo=ver&clase=" . $datos["clase"]);
 			exit;
 		}
 	}
 
-	// Lee clase, día y hora de $_GET o $_POST y los valida.
-	// Si algo falla guarda el mensaje en $this->error y se queda con los valores por defecto
-	private function cargarDatos($datos)
+	// Crea el array $datos con los valores por defecto y lo rellena con la clase, día y hora
+	// de $_GET o $_POST (que llegan en $entrada) ya validados.
+	// Si algo falla guarda el mensaje en $datos["error"] y deja los valores por defecto.
+	private function cargarDatos($entrada)
 	{
-		$this->error = "";
+		$datos = array(
+			"clase" => "2DAW",
+			"dia" => 1,
+			"hora" => 1,
+			"asignaturas" => array(),
+			"fila" => null,
+			"boton" => "",
+			"error" => ""
+		);
 
-		if (isset($datos["clase"])) {
-			if (in_array($datos["clase"], $this->clases) == false) {
-				$this->error = $this->errorClase;
-				return;
+		if (isset($entrada["clase"])) {
+			if (in_array($entrada["clase"], $this->clases) == false) {
+				$datos["error"] = $this->errorClase;
+				return $datos;
 			}
-			$this->clase = $datos["clase"];
+			$datos["clase"] = $entrada["clase"];
 		}
 
-		if (isset($datos["dia"])) {
-			$dia = (int) $datos["dia"];
+		if (isset($entrada["dia"])) {
+			$dia = (int) $entrada["dia"];
 			if ($dia < 1 || $dia > 5) {
-				$this->error = $this->errorDia;
-				return;
+				$datos["error"] = $this->errorDia;
+				return $datos;
 			}
-			$this->dia = $dia;
+			$datos["dia"] = $dia;
 		}
 
-		if (isset($datos["hora"])) {
-			$hora = (int) $datos["hora"];
-			if ($hora < 1 || $hora > $this->ultimaHora($this->dia)) {
-				$this->error = $this->errorHora;
-				return;
+		if (isset($entrada["hora"])) {
+			$hora = (int) $entrada["hora"];
+			if ($hora < 1 || $hora > $this->ultimaHora($datos["dia"])) {
+				$datos["error"] = $this->errorHora;
+				return $datos;
 			}
-			$this->hora = $hora;
+			$datos["hora"] = $hora;
 		}
+
+		return $datos;
 	}
 
 	// Comprueba que el formulario ha enviado clase, día y hora
@@ -203,11 +205,11 @@ class cAsignatura
 		return 6;
 	}
 
-	// Pasa a la hora siguiente y vuelve a la misma acción (alta o baja)
-	private function siguiente($metodo)
+	// Pasa a la hora siguiente y vuelve al mismo método (alta o baja) usando el día, hora y clase de $datos
+	private function siguiente($metodo, $datos)
 	{
-		$dia = $this->dia;
-		$hora = $this->hora + 1;
+		$dia = $datos["dia"];
+		$hora = $datos["hora"] + 1;
 
 		if ($hora > $this->ultimaHora($dia)) {
 			$hora = 1;
@@ -215,9 +217,9 @@ class cAsignatura
 		}
 
 		if ($dia > 5) {
-			header("Location: index.php?controlador=cHorario&metodo=ver&clase=" . $this->clase);
+			header("Location: index.php?controlador=cHorario&metodo=ver&clase=" . $datos["clase"]);
 		} else {
-			header("Location: index.php?controlador=cAsignatura&metodo=" . $metodo . "&clase=" . $this->clase . "&dia=" . $dia . "&hora=" . $hora);
+			header("Location: index.php?controlador=cAsignatura&metodo=" . $metodo . "&clase=" . $datos["clase"] . "&dia=" . $dia . "&hora=" . $hora);
 		}
 		exit;
 	}
