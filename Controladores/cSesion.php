@@ -45,16 +45,24 @@ class cSesion
 
             session_regenerate_id(true);
 
-            $_SESSION["usuario"] = array(
-                "idUsuario" => $usuario["idUsuario"],
-                "correo" => $usuario["correo"],
-                "rol" => $usuario["rol"]
-            );
+            $_SESSION["id"] = $usuario["idUsuario"];
+            $_SESSION["nombre"] = $usuario["correo"];
+            $_SESSION["rol"] = $usuario["rol"];
 
             header("Location: index.php?controlador=cHorario&metodo=ver");
             exit;
         }
 
         return $datos;
+    }
+
+    public function cerrar()
+    {
+        session_unset();
+        session_destroy();
+
+        $this->vista = "vLogOut.php";
+
+        return array();
     }
 }

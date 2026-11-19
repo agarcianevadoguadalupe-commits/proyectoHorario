@@ -45,6 +45,42 @@ class cHorario
 
 		$datos["horario"] = $this->modelo->obtener($datos["clase"]);
 
+		$datos["sesion"] = '
+			<a href="index.php?controlador=cSesion&metodo=iniciar" class="sesion">
+				Iniciar sesión
+			</a>';
+
+		if (isset($_SESSION["id"])) {
+			$nombre = htmlspecialchars($_SESSION["nombre"], ENT_QUOTES, "UTF-8");
+
+			$datos["sesion"] = '
+        <div class="sesion">
+            ' . $nombre . '
+            <a href="index.php?controlador=cSesion&metodo=cerrar"
+               style="color: white; margin-left: 12px;">
+                Cerrar sesión
+            </a>
+        </div>';
+		}
+
+		// Botones disponibles según el rol
+		$datos["botones"] = "";
+
+		$rol = $_SESSION["rol"] ?? "";
+
+		if (isset($_SESSION["id"]) && (
+			$rol == "profesor" || $rol == "administrador"
+		)) {
+			$clase = $datos["clase"];
+
+			$datos["botones"] = '
+        <a href="index.php?controlador=cAsignatura&metodo=alta&clase=' . $clase . '"
+           class="botonAlta">Alta de horario</a>
+
+        <a href="index.php?controlador=cAsignatura&metodo=baja&clase=' . $clase . '"
+           class="botonBaja">Baja de horario</a>';
+		}
+
 		return $datos;
 	}
 }

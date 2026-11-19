@@ -1,35 +1,59 @@
 <?php
 session_start();
-// Valores por defecto, para cuando no se entran por URL
+
+// Valores por defecto
 $controlador = "cHorario";
 $metodo = "ver";
 
-// Si la URL trae las dos cosas, sustituye los valores
+// Lee el controlador y el método de la URL
 if (isset($_GET["controlador"]) && isset($_GET["metodo"])) {
 	$controlador = $_GET["controlador"];
 	$metodo = $_GET["metodo"];
 }
 
-// Elige a cuál controlador va según los parámetros
+// Comprueba que la ruta esté permitida
 $valido = false;
+
 if ($controlador == "cHorario" && $metodo == "ver") {
 	$valido = true;
 }
 
-if ($controlador == "cAsignatura" && ($metodo == "alta" || $metodo == "guardar" || $metodo == "baja" || $metodo == "borrar")) {
+if ($controlador == "cSesion" && (
+	$metodo == "iniciar" || $metodo == "cerrar"
+)) {
 	$valido = true;
 }
 
+if ($controlador == "cAsignatura" && (
+	$metodo == "alta" ||
+	$metodo == "guardar" ||
+	$metodo == "baja" ||
+	$metodo == "borrar"
+)) {
+	$valido = true;
+}
+
+// Si la ruta no es válida, muestra el horario
 if ($valido == false) {
 	$controlador = "cHorario";
 	$metodo = "ver";
 }
 
-// Carga el controlador elegido
-require "Controladores/" . $controlador . ".php";
+// Solo profesores y administradores pueden modificar el horario
+$puedeEditar = isset($_SESSION["id"], $_SESSION["rol"]) &&
+	in_array($_SESSION["rol"], array("profesor", "administrador"), true);
+
+if ($controlador == "cAsignatura" && !$puedeEditar) {
+	header("Location: index.php?controlador=cHorario&metodo=ver");
+	exit;
+}
+
+// Carga y crea el controlador
+require_once "Controladores/" . $controlador . ".php";
 $objeto = new $controlador();
 
-// Ejecuta el método, que devuelve el array $datos y apunta la vista en $vista
+// Ejecuta el método y recoge los datos
 $datos = $objeto->$metodo();
 
-// Carga la vista, que usa el array $datos
+// Carga la vista
+require "Vista/" . $objeto->vista;

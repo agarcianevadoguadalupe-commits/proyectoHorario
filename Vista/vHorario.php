@@ -34,7 +34,7 @@ $colores = array(
 		<nav class="menu">
 			<a href="clases.php" class="activo">Clases</a>
 		</nav>
-		<a href="index.php?controlador=cAsignatura&metodo=alta&clase=<?php echo $datos["clase"]; ?>" class="sesion">Iniciar sesión</a>
+		<?php echo $datos["sesion"]; ?>
 	</header>
 
 	<main>
@@ -82,8 +82,7 @@ $colores = array(
 			?>
 		</table>
 
-		<a href="index.php?controlador=cAsignatura&metodo=alta&clase=<?php echo $datos["clase"]; ?>" class="botonAlta">Alta de horario</a>
-		<a href="index.php?controlador=cAsignatura&metodo=baja&clase=<?php echo $datos["clase"]; ?>" class="botonBaja">Baja de horario</a>
+		<?php echo $datos["botones"]; ?>
 	</main>
 </body>
 
