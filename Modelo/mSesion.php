@@ -12,19 +12,15 @@ class mSesion
         $this->conexion->set_charset("utf8mb4");
     }
 
-    public function obtenerPorCorreo($correo)
+    public function comprobar($correo, $contrasena)
     {
-        $sql = "SELECT idUsuario, correo, `contraseña`, rol
+        $sql = "SELECT idUsuario, correo, rol
                 FROM usuarios
-                WHERE correo = ?";
+                WHERE correo = '$correo'
+                AND `contraseña` = '$contrasena'";
 
-        $consulta = $this->conexion->prepare($sql);
-        $consulta->bind_param("s", $correo);
-        $consulta->execute();
+        $resultado = $this->conexion->query($sql);
 
-        $usuario = $consulta->get_result()->fetch_assoc();
-        $consulta->close();
-
-        return $usuario;
+        return $resultado->fetch_assoc();
     }
 }
