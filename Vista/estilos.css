@@ -211,3 +211,42 @@ td {
 		print-color-adjust: exact;
 	}
 }
+
+/* -- LogIn/LogOut -- */
+
+.tarjeta-login {
+    box-sizing: border-box;
+    width: 530px;
+    max-width: calc(100% - 32px);
+}
+
+.tarjeta-login input[type="email"],
+.tarjeta-login input[type="password"] {
+    box-sizing: border-box;
+    width: 280px;
+    max-width: 100%;
+    padding: 6px;
+    border: 1px solid #1d3b2f;
+    background-color: #ffffff;
+    color: #222222;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 15px;
+}
+
+.tarjeta-login input:focus-visible {
+    outline: 2px solid #1d3b2f;
+    outline-offset: 2px;
+}
+
+@media (max-width: 560px) {
+    .tarjeta-login label {
+        display: block;
+        width: auto;
+        margin-bottom: 6px;
+    }
+
+    .tarjeta-login input[type="email"],
+    .tarjeta-login input[type="password"] {
+        width: 100%;
+    }
+}

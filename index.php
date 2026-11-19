@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Valores por defecto, para cuando no se entran por URL
 $controlador = "cHorario";
 $metodo = "ver";
@@ -32,4 +33,3 @@ $objeto = new $controlador();
 $datos = $objeto->$metodo();
 
 // Carga la vista, que usa el array $datos
-require "Vista/" . $objeto->vista;
